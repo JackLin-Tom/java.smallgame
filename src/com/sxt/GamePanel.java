@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class GamePanel extends JFrame {
@@ -26,14 +27,23 @@ public class GamePanel extends JFrame {
     //游戏模式 0 单人模式 1 双人模式 2
     int state = 0;
     int a = 1;
-
+    //敌方坦克重绘速度
+    int count = 0;
+    //已生成敌人数量
+    int enemyCount = 0;
     //游戏元素列表
     ArrayList<Bullet>bulletList = new ArrayList<Bullet>();
+    //敌方坦克列表
+    ArrayList<Bot>botList = new ArrayList<Bot>();
 
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("Images/player1/P1tankU.gif",125,510,this,
             "Images/player1/P1tankU.gif","Images/player1/P1tankL.gif",
             "Images/player1/P1tankR.gif","images/player1/p1tankD.gif");
+    //Bot
+    Bot bot = new Bot("images/enemy/enemy1U.gif",500,110,
+            this,"images/enemy/enemy1U.gif","images/enemy/enemy1L.gif",
+            "images/enemy/enemy1R.gif","images/enemy/enemy1D.gif");
 
 
 
@@ -56,6 +66,19 @@ public class GamePanel extends JFrame {
         this.addKeyListener(new GamePanel.KeyMonitor());
         //重绘
         while(true){
+            //添加电脑坦克
+            if(count%100 == 1 && enemyCount < 10){
+                Random random = new Random();
+                int rnum = random.nextInt(800);
+                botList.add(new Bot("images/enemy/enemy1U.gif",rnum,110,
+                        this,"images/enemy/enemy1U.gif",
+                        "images/enemy/enemy1L.gif",
+                        "images/enemy/enemy1R.gif",
+                        "images/enemy/enemy1D.gif"));
+                enemyCount++;
+            }
+
+
             repaint();
             try {
                 //线程休眠 1秒 = 1000毫秒
@@ -103,8 +126,13 @@ public class GamePanel extends JFrame {
             playerOne.paintSelft(gImage);
             for(Bullet bullet: bulletList){
                 bullet.paintSelft(gImage);
-
             }
+            bot.paintSelft(gImage);//绘制敌方坦克
+            for(Bot bot:botList){
+                bot.paintSelft(gImage);
+            }
+            //重绘一次
+            count++;
         }
         /**将缓存区绘制好的图形整个绘制到容器的画布中**/
         g.drawImage(offscreenImage,0,0,null);

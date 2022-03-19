@@ -16,6 +16,11 @@ public abstract  class Tank extends GameObject{
     private String leftImg;
     private String rightImg;
     private String downImg;
+    //攻击冷却状态
+    private boolean attackCoolDown = true;
+    //攻击冷却时间毫秒间隔1000ms
+    private int attackCoolTime = 500;
+
 
     public Tank(String img,int x,int y,GamePanel gamePanel
             ,String upImg,String leftImg,String rightImg,String downImg){
@@ -51,13 +56,34 @@ public abstract  class Tank extends GameObject{
         direction = Direction.DOWN;
     }
     public void attack(){
-        Point P = this.getHeadPoint();
-        Bullet bullet = new Bullet("images/bullet/bulletGreen.gif",P.x,P.y,
-                this.gamePanel, direction);
-        this.gamePanel.bulletList.add(bullet);
+        if(attackCoolDown){
+            Point P = this.getHeadPoint();
+            Bullet bullet = new Bullet("images/bullet/bulletGreen.gif",P.x,P.y,
+                    this.gamePanel, direction);
+            this.gamePanel.bulletList.add(bullet);
+            //线程开始
+            new AttackCD().start();
+        }
 
 
+    }
+    // 新线程
+    class AttackCD extends Thread{
+        public void run(){
+            //攻击功能设置为冷却状态
+            attackCoolDown = false;
+            //休眠一秒
+            try{
+                Thread.sleep(attackCoolTime);
 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //将攻击功能解除冷却状态
+            attackCoolDown = true;
+            //线程终止
+            this.stop();
+        }
 
     }
     public Point getHeadPoint(){
