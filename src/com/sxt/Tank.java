@@ -50,6 +50,31 @@ public abstract  class Tank extends GameObject{
         setImg(downImg);
         direction = Direction.DOWN;
     }
+    public void attack(){
+        Point P = this.getHeadPoint();
+        Bullet bullet = new Bullet("images/bullet/bulletGreen.gif",P.x,P.y,
+                this.gamePanel, direction);
+        this.gamePanel.bulletList.add(bullet);
+
+
+
+
+    }
+    public Point getHeadPoint(){
+        switch (direction){
+            case LEFT:
+                return new Point(x,y+height/2);
+            case RIGHT:
+                return new Point(x+width,y+height/2);
+            case UP:
+                return new Point(x+width/2,y);
+            case DOWN:
+                return new Point(x+width/2,y+height);
+            default:
+                return null;
+
+        }
+    }
 
 
     @Override

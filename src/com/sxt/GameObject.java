@@ -9,7 +9,7 @@ public abstract class GameObject {
     public int x;
     public int y;
     //界面
-    private GamePanel gamePanel;
+    public GamePanel gamePanel;
     public GameObject(String img, int x,int y, GamePanel gamePanel){
         this.img = Toolkit.getDefaultToolkit().getImage(img);
         this.x=x;

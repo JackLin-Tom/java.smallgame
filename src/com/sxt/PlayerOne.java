@@ -32,6 +32,9 @@ public class PlayerOne extends Tank {
             case KeyEvent.VK_W:
                 up = true;
                 break;
+            case KeyEvent.VK_SPACE:
+                attack();
+                break;
             default:
                 break;
         }

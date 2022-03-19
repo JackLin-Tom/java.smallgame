@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 
 public class GamePanel extends JFrame {
@@ -25,6 +26,10 @@ public class GamePanel extends JFrame {
     //游戏模式 0 单人模式 1 双人模式 2
     int state = 0;
     int a = 1;
+
+    //游戏元素列表
+    ArrayList<Bullet>bulletList = new ArrayList<Bullet>();
+
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("Images/player1/P1tankU.gif",125,510,this,
             "Images/player1/P1tankU.gif","Images/player1/P1tankL.gif",
@@ -96,6 +101,10 @@ public class GamePanel extends JFrame {
             }
             //添加游戏元素
             playerOne.paintSelft(gImage);
+            for(Bullet bullet: bulletList){
+                bullet.paintSelft(gImage);
+
+            }
         }
         /**将缓存区绘制好的图形整个绘制到容器的画布中**/
         g.drawImage(offscreenImage,0,0,null);
