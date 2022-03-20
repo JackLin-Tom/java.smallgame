@@ -1,7 +1,5 @@
 package com.sxt;
 
-import com.sun.javafx.scene.traversal.Direction;
-
 import java.awt.*;
 
 public class Bullet extends GameObject {
@@ -13,9 +11,9 @@ public class Bullet extends GameObject {
     //方向
     Direction direction;
 
-    public Bullet(String img, int x, int y, GamePanel gamePanel, com.sun.javafx.scene.traversal.Direction direction) {
+    public Bullet(String img, int x, int y, GamePanel gamePanel, Direction direction) {
         super(img, x, y, gamePanel);
-        this.direction= direction;
+        this.direction = direction;
 
     }
     public void leftward(){

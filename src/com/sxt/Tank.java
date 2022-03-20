@@ -1,7 +1,5 @@
 package com.sxt;
 
-import com.sun.javafx.scene.traversal.Direction;
-
 import java.awt.*;
 
 public abstract  class Tank extends GameObject{

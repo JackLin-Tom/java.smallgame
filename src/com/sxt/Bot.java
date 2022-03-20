@@ -5,9 +5,12 @@ import java.awt.*;
 public class Bot extends Tank {
 
 
-    public Bot(String img, int x, int y, GamePanel gamePanel, String upImg, String leftImg, String rightImg, String downImg) {
+    public Bot(String img, int x, int y, GamePanel gamePanel,
+               String upImg, String leftImg,
+               String rightImg, String downImg) {
         super(img, x, y, gamePanel, upImg, leftImg, rightImg, downImg);
     }
+
 
 
     @Override
