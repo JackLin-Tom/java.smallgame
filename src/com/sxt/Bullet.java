@@ -1,6 +1,7 @@
 package com.sxt;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Bullet extends GameObject {
     //尺寸
@@ -48,13 +49,24 @@ public class Bullet extends GameObject {
             case DOWN:
                 downward();
                 break;
-
+        }
+    }
+    //我方子弹与敌方坦克的碰撞检测
+    public void hitBot(){
+        ArrayList<Bot>bots = this.gamePanel.botList;
+        for(Bot bot: bots){
+            if(this.getRec().intersects(bot.getRec())){
+                this.gamePanel.botList.remove(bot);
+                this.gamePanel.removeList.add(this);
+                break;
+            }
         }
     }
     @Override
     public void paintSelf(Graphics g) {
         g.drawImage(img,x,y,null);
         this.go();
+        hitBot();
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Bot extends Tank {
     }
 
     //电脑坦克随机方向
-    public Direction getrandomDirection() {
+    public Direction getRandomDirection() {
         Random random = new Random();
         int rnum = random.nextInt(4);
         switch(rnum) {
@@ -28,8 +28,9 @@ public class Bot extends Tank {
     }
 
     public void go(){
+        attack();
         if(moveTime>=20) {
-            direction=getrandomDirection();
+            direction=getRandomDirection();
             moveTime=0;
         }else {
             moveTime++;
@@ -49,6 +50,17 @@ public class Bot extends Tank {
                 break;
         }
     }
+    //电脑坦克有1%的几率攻击
+    public void attack(){
+        Point p = getHeadPoint();
+        Random random = new Random();
+        int rnum = random.nextInt(400);
+        if(rnum<4){
+            this.gamePanel.bulletList.add(new EnemyBullet("images/bullet/bulletYellow.gif",p.x,p.y,
+                    this.gamePanel, direction));
+        }
+    }
+
 
 
 
@@ -56,8 +68,7 @@ public class Bot extends Tank {
     @Override
     public void paintSelf(Graphics g) {
         g.drawImage(img,x,y,null);
-
-
+        go();
     }
 
     @Override

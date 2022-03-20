@@ -35,7 +35,10 @@ public class GamePanel extends JFrame {
     ArrayList<Bullet>bulletList = new ArrayList<Bullet>();
     //敌方坦克列表
     ArrayList<Bot>botList = new ArrayList<Bot>();
-
+    //删除子弹列表
+    ArrayList<Bullet>removeList = new ArrayList<Bullet>();
+    //玩家列表
+    ArrayList<Tank>playerList = new ArrayList<Tank>();
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("Images/player1/P1tankU.gif",125,510,this,
             "Images/player1/P1tankU.gif","Images/player1/P1tankL.gif",
@@ -44,9 +47,6 @@ public class GamePanel extends JFrame {
     Bot bot = new Bot("images/enemy/enemy1U.gif",500,110,
             this,"images/enemy/enemy1U.gif","images/enemy/enemy1L.gif",
             "images/enemy/enemy1R.gif","images/enemy/enemy1D.gif");
-
-
-
 
     //窗口启动方法
     public void launch() {
@@ -77,8 +77,6 @@ public class GamePanel extends JFrame {
                         "images/enemy/enemy1D.gif"));
                 enemyCount++;
             }
-
-
             repaint();
             try {
                 //线程休眠 1秒 = 1000毫秒
@@ -123,10 +121,14 @@ public class GamePanel extends JFrame {
                 gImage.drawString("双人模式", 220, 200);
             }
             //添加游戏元素
-            playerOne.paintSelf(gImage);
+            for(Tank player: playerList){
+                player.paintSelf(gImage);
+            }
             for(Bullet bullet: bulletList){
                 bullet.paintSelf(gImage);
             }
+            bulletList.removeAll(removeList);
+
             bot.paintSelf(gImage);//绘制敌方坦克
             for(Bot bot:botList){
                 bot.paintSelf(gImage);
@@ -136,7 +138,6 @@ public class GamePanel extends JFrame {
         }
         /**将缓存区绘制好的图形整个绘制到容器的画布中**/
         g.drawImage(offscreenImage,0,0,null);
-
     }
 
 
@@ -162,6 +163,9 @@ public class GamePanel extends JFrame {
                     break;
                 case KeyEvent.VK_ENTER:
                     state = a;
+                    playerList.add(playerOne);
+                    //player2
+
                     break;
                 default:
                     playerOne.keyPressed(e);
