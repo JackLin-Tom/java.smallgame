@@ -123,13 +123,13 @@ public class GamePanel extends JFrame {
                 gImage.drawString("双人模式", 220, 200);
             }
             //添加游戏元素
-            playerOne.paintSelft(gImage);
+            playerOne.paintSelf(gImage);
             for(Bullet bullet: bulletList){
-                bullet.paintSelft(gImage);
+                bullet.paintSelf(gImage);
             }
-            bot.paintSelft(gImage);//绘制敌方坦克
+            bot.paintSelf(gImage);//绘制敌方坦克
             for(Bot bot:botList){
-                bot.paintSelft(gImage);
+                bot.paintSelf(gImage);
             }
             //重绘一次
             count++;

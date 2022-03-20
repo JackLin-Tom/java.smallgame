@@ -37,7 +37,7 @@ public abstract  class Tank extends GameObject{
         direction = Direction.LEFT;
     }
 
-    public void uptward() {
+    public void upward() {
        y-=speed;
         setImg(upImg);
         direction = Direction.UP;
@@ -102,7 +102,7 @@ public abstract  class Tank extends GameObject{
 
 
     @Override
-    public abstract void paintSelft(Graphics g);
+    public abstract void paintSelf(Graphics g);
     @Override
     public abstract Rectangle getRec();
 

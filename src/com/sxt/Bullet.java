@@ -52,7 +52,7 @@ public class Bullet extends GameObject {
         }
     }
     @Override
-    public void paintSelft(Graphics g) {
+    public void paintSelf(Graphics g) {
         g.drawImage(img,x,y,null);
         this.go();
     }

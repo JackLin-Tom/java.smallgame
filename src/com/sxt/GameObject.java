@@ -19,7 +19,7 @@ public abstract class GameObject {
     }
 
 
-    public abstract void paintSelft(Graphics g);
+    public abstract void paintSelf(Graphics g);
 
     public abstract Rectangle getRec();
 

@@ -69,7 +69,7 @@ public class PlayerOne extends Tank {
             rightward();
         }
         else if(up){
-            uptward();
+            upward();
         }
         else if(down){
             downward();
@@ -78,7 +78,7 @@ public class PlayerOne extends Tank {
 
 
     @Override
-    public void paintSelft(Graphics g) {
+    public void paintSelf(Graphics g) {
         g.drawImage(img,x,y,null);
         move();
 
