@@ -39,6 +39,7 @@ public class GamePanel extends JFrame {
     ArrayList<Bullet>removeList = new ArrayList<Bullet>();
     //玩家列表
     ArrayList<Tank>playerList = new ArrayList<Tank>();
+    ArrayList<Wall>wallList = new ArrayList<Wall>();
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("Images/player1/P1tankU.gif",125,510,this,
             "Images/player1/P1tankU.gif","Images/player1/P1tankL.gif",
@@ -64,6 +65,17 @@ public class GamePanel extends JFrame {
         setVisible(true);
         //添加键盘监视器
         this.addKeyListener(new GamePanel.KeyMonitor());
+        //添加围墙
+        for(int i = 0; i< 14; i ++){
+            wallList.add(new Wall("images/walls.gif", 50+i*50 ,170, this ));
+        }
+        wallList.add(new Wall("images/walls.gif", 305 ,560,this ));
+        wallList.add(new Wall("images/walls.gif", 305 ,500,this ));
+        wallList.add(new Wall("images/walls.gif", 365 ,500,this ));
+        wallList.add(new Wall("images/walls.gif", 425 ,500,this ));
+        wallList.add(new Wall("images/walls.gif", 425 ,560,this ));
+
+
         //重绘
         while(true){
             //添加电脑坦克
@@ -132,6 +144,10 @@ public class GamePanel extends JFrame {
             bot.paintSelf(gImage);//绘制敌方坦克
             for(Bot bot:botList){
                 bot.paintSelf(gImage);
+            }
+
+            for(Wall wall: wallList){
+                wall.paintSelf(gImage);
             }
             //重绘一次
             count++;
