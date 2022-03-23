@@ -37,6 +37,7 @@ public class Bullet extends GameObject {
 
     }
     public void go(){
+        moveToBorder();
         switch(direction){
             case LEFT:
                 leftward();
@@ -91,6 +92,16 @@ public class Bullet extends GameObject {
             }
         }
     }*/
+    public void moveToBorder(){
+        if(x<0||x>this.gamePanel.getWidth()-width){
+            this.gamePanel.removeList.add(this);
+            System.out.println("bullet hit border");
+        }
+        if(y<0||y>this.gamePanel.getHeight()-height){
+            this.gamePanel.removeList.add(this);
+            System.out.println("bullet hit border");
+        }
+    }
 
     @Override
     public void paintSelf(Graphics g) {

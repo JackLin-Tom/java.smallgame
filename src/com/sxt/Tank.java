@@ -35,7 +35,7 @@ public abstract  class Tank extends GameObject{
     public void leftward() {
         direction = Direction.LEFT;
         setImg(leftImg);
-        if(!hitWall(x-speed,y)){
+        if(!hitWall(x-speed, y) && !moveToBorder(x-speed, y)){
             x-=speed;
         }
     }
@@ -43,24 +43,24 @@ public abstract  class Tank extends GameObject{
     public void upward() {
         direction = Direction.UP;
         setImg(upImg);
-        if(!hitWall(x,y-speed)){
+        if(!hitWall(x,y-speed) && !moveToBorder(x,y-speed)){
             y-=speed;
         }
     }
 
     public void rightward() {
-        if(!hitWall(x+speed,y)){
-            x+=speed;
-        }
         setImg(rightImg);
         direction = Direction.RIGHT;
+        if(!hitWall(x+speed,y) && !moveToBorder(x+speed,y)){
+            x+=speed;
+        }
     }
     public void downward() {
-        if(!hitWall(x,y+speed)){
-            y+=speed;
-        }
         setImg(downImg);
         direction = Direction.DOWN;
+        if(!hitWall(x,y+speed) && !moveToBorder(x,y+speed)){
+            y+=speed;
+        }
     }
     public void attack(){
         if(attackCoolDown){
@@ -123,6 +123,21 @@ public abstract  class Tank extends GameObject{
         return false;
     }
 
+    public boolean moveToBorder(int x,int y){
+        if(x<0){
+            return true;
+        }
+        else if(x>this.gamePanel.getWidth()-width){
+            return true;
+        }
+        else if(y<0){
+            return true;
+        }
+        else if (y>this.gamePanel.getHeight()-height) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public abstract void paintSelf(Graphics g);
