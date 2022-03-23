@@ -1,6 +1,7 @@
 package com.sxt;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract  class Tank extends GameObject{
     //尺寸
@@ -32,24 +33,32 @@ public abstract  class Tank extends GameObject{
         this.img=Toolkit.getDefaultToolkit().getImage(img);
     }
     public void leftward() {
-        x-=speed;
-        setImg(leftImg);
         direction = Direction.LEFT;
+        setImg(leftImg);
+        if(!hitWall(x-speed,y)){
+            x-=speed;
+        }
     }
 
     public void upward() {
-       y-=speed;
-        setImg(upImg);
         direction = Direction.UP;
+        setImg(upImg);
+        if(!hitWall(x,y-speed)){
+            y-=speed;
+        }
     }
 
     public void rightward() {
-        x+=speed;
+        if(!hitWall(x+speed,y)){
+            x+=speed;
+        }
         setImg(rightImg);
         direction = Direction.RIGHT;
     }
     public void downward() {
-        y+=speed;
+        if(!hitWall(x,y+speed)){
+            y+=speed;
+        }
         setImg(downImg);
         direction = Direction.DOWN;
     }
@@ -98,6 +107,20 @@ public abstract  class Tank extends GameObject{
                 return null;
 
         }
+    }
+    //与围墙碰撞检测
+    public boolean hitWall(int x,int y){
+        //围墙列表
+        ArrayList<Wall> walls = this.gamePanel.wallList;
+        //写下一步矩形
+        Rectangle next = new Rectangle(x,y,width,height);
+        for(Wall wall: walls){
+            //每个围墙进行碰撞检验
+            if(next.intersects(wall.getRec())){
+                return true;
+            }
+        }
+        return false;
     }
 
 

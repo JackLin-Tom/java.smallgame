@@ -2,6 +2,7 @@ package com.sxt;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Bullet extends GameObject {
     //尺寸
@@ -50,6 +51,7 @@ public class Bullet extends GameObject {
                 downward();
                 break;
         }
+        this.hitWall();
     }
     //我方子弹与敌方坦克的碰撞检测
     public void hitBot(){
@@ -62,6 +64,34 @@ public class Bullet extends GameObject {
             }
         }
     }
+    //子弹与wall碰撞
+    public void hitWall(){
+        //围墙列表
+        ArrayList<Wall> walls = this.gamePanel.wallList;
+        //遍历列表
+        for(Wall wall: walls){
+            //与每个围墙进行碰撞检测
+            if(this.getRec().intersects(wall.getRec())){
+                //删去围墙和子弹
+                this.gamePanel.wallList.remove(wall);
+                this.gamePanel.removeList.add(this);
+                break;
+            }
+        }
+    }
+
+/*    public void hitWallA(){
+        Rectangle next = this.getRec();
+        List<Wall> walls = this.gamePanel.wallList;
+        for(Wall wall: walls) {
+            if (wall.getRec().intersects(next)) {
+                this.gamePanel.wallList.remove(wall);
+                this.gamePanel.removeList.add(this);
+                break;
+            }
+        }
+    }*/
+
     @Override
     public void paintSelf(Graphics g) {
         g.drawImage(img,x,y,null);

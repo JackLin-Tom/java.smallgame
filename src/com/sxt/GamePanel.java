@@ -67,7 +67,7 @@ public class GamePanel extends JFrame {
         this.addKeyListener(new GamePanel.KeyMonitor());
         //添加围墙
         for(int i = 0; i< 14; i ++){
-            wallList.add(new Wall("images/walls.gif", 50+i*50 ,170, this ));
+            wallList.add(new Wall("images/walls.gif", i*60,170,this ));
         }
         wallList.add(new Wall("images/walls.gif", 305 ,560,this ));
         wallList.add(new Wall("images/walls.gif", 305 ,500,this ));
