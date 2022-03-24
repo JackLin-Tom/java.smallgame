@@ -1,6 +1,7 @@
 package com.sxt;
 
 import com.sun.corba.se.impl.orbutil.graph.Graph;
+import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class GamePanel extends JFrame {
     Image select = Toolkit.getDefaultToolkit().getImage("images/selecttank.gif");
     //指针初始坐标
     int y = 150;
-    //游戏模式 0 单人模式 1 双人模式 2
+    //游戏模式 0 单人模式 1 双人模式 5 游戏胜利
     int state = 0;
     int a = 1;
     //敌方坦克重绘速度
@@ -40,6 +41,9 @@ public class GamePanel extends JFrame {
     //玩家列表
     ArrayList<Tank>playerList = new ArrayList<Tank>();
     ArrayList<Wall>wallList = new ArrayList<Wall>();
+    ArrayList<Base>baseList = new ArrayList<Base>();
+    ArrayList<BlastObj>blastList = new ArrayList<BlastObj>();
+
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("Images/player1/P1tankU.gif",125,510,this,
             "Images/player1/P1tankU.gif","Images/player1/P1tankL.gif",
@@ -48,7 +52,8 @@ public class GamePanel extends JFrame {
     Bot bot = new Bot("images/enemy/enemy1U.gif",500,110,
             this,"images/enemy/enemy1U.gif","images/enemy/enemy1L.gif",
             "images/enemy/enemy1R.gif","images/enemy/enemy1D.gif");
-
+    //基地
+    Base base = new Base("images/star.gif",375,570,this);
     //窗口启动方法
     public void launch() {
         //标题
@@ -74,12 +79,20 @@ public class GamePanel extends JFrame {
         wallList.add(new Wall("images/walls.gif", 365 ,500,this ));
         wallList.add(new Wall("images/walls.gif", 425 ,500,this ));
         wallList.add(new Wall("images/walls.gif", 425 ,560,this ));
-
-
+        baseList.add(base);
         //重绘
         while(true){
+            //游戏胜利判定
+            if(botList.size() == 0 && enemyCount == 10){
+                state = 5;
+            }
+
+            //游戏失败判定
+            if((playerList.size() == 0 && (state == 1 || state == 2)) || baseList.size() == 0 ){
+                state = 4;
+            }
             //添加电脑坦克
-            if(count%100 == 1 && enemyCount < 10){
+            if(count%100 == 1 && enemyCount < 10 && (state == 1 || state == 2)){
                 Random random = new Random();
                 int rnum = random.nextInt(800);
                 botList.add(new Bot("images/enemy/enemy1U.gif",rnum,110,
@@ -102,7 +115,7 @@ public class GamePanel extends JFrame {
     //paint（）方法
     @Override
     public void paint(Graphics g){
-        System.out.println(bulletList.size());
+//        System.out.println(bulletList.size());
         //创建和容器一样大小的Image图片
         if(offscreenImage==null){
             offscreenImage = this.createImage(width,height);
@@ -148,8 +161,23 @@ public class GamePanel extends JFrame {
             for(Wall wall: wallList){
                 wall.paintSelf(gImage);
             }
+            for(Base base: baseList){
+                base.paintSelf(gImage);
+            }
+            for(BlastObj blast: blastList){
+                blast.paintSelf(gImage);
+            }
             //重绘一次
             count++;
+        }
+        else if(state == 5){
+            gImage.drawString("游戏胜利",220,200);
+        }
+        else if(state == 4){
+            gImage.drawString("游戏失败",220,200);
+        }
+        else if(state == 3){
+            gImage.drawString("游戏暂停",220,200);
         }
         /**将缓存区绘制好的图形整个绘制到容器的画布中**/
         g.drawImage(offscreenImage,0,0,null);
@@ -180,8 +208,18 @@ public class GamePanel extends JFrame {
                     state = a;
                     playerList.add(playerOne);
                     //player2
-
                     break;
+                case KeyEvent.VK_P:
+                    if(state != 3){
+                        a = state;
+                        state =3;
+                    }
+                    else {
+                        state = a;
+                        if(a == 0){
+                           a = 1;
+                        }
+                    }
                 default:
                     playerOne.keyPressed(e);
                     break;

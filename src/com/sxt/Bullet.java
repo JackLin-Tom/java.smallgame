@@ -37,7 +37,6 @@ public class Bullet extends GameObject {
 
     }
     public void go(){
-        moveToBorder();
         switch(direction){
             case LEFT:
                 leftward();
@@ -53,13 +52,26 @@ public class Bullet extends GameObject {
                 break;
         }
         this.hitWall();
+        moveToBorder();
+        hitBase();
     }
-    //我方子弹与敌方坦克的碰撞检测
+    //player子弹与敌方坦克的碰撞检测
     public void hitBot(){
         ArrayList<Bot>bots = this.gamePanel.botList;
         for(Bot bot: bots){
             if(this.getRec().intersects(bot.getRec())){
+                this.gamePanel.blastList.add(new BlastObj("",bot.x-34,bot.y-14,this.gamePanel));
                 this.gamePanel.botList.remove(bot);
+                this.gamePanel.removeList.add(this);
+                break;
+            }
+        }
+    }
+    public void hitBase(){
+        ArrayList<Base>baseList = this.gamePanel.baseList;
+        for(Base base: baseList){
+            if(this.getRec().intersects(base.getRec())){
+                this.gamePanel.baseList.remove(base);
                 this.gamePanel.removeList.add(this);
                 break;
             }
@@ -81,17 +93,7 @@ public class Bullet extends GameObject {
         }
     }
 
-/*    public void hitWallA(){
-        Rectangle next = this.getRec();
-        List<Wall> walls = this.gamePanel.wallList;
-        for(Wall wall: walls) {
-            if (wall.getRec().intersects(next)) {
-                this.gamePanel.wallList.remove(wall);
-                this.gamePanel.removeList.add(this);
-                break;
-            }
-        }
-    }*/
+
     public void moveToBorder(){
         if(x<0||x>this.gamePanel.getWidth()-width){
             this.gamePanel.removeList.add(this);

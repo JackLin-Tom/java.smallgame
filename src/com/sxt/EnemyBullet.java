@@ -13,6 +13,7 @@ public class EnemyBullet extends Bullet{
         ArrayList<Tank> players = this.gamePanel.playerList;
         for(Tank player: players){
             if(this.getRec().intersects(player.getRec())){
+                this.gamePanel.blastList.add(new BlastObj("",player.x-34,player.y-14,this.gamePanel));
                 this.gamePanel.playerList.remove(player);
                 this.gamePanel.removeList.add(this);
                 break;
