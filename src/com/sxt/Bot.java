@@ -54,7 +54,7 @@ public class Bot extends Tank {
     public void attack(){
         Point p = getHeadPoint();
         Random random = new Random();
-        int rnum = random.nextInt(400);
+        int rnum = random.nextInt(100);
         if(rnum<4){
             this.gamePanel.bulletList.add(new EnemyBullet("images/bullet/bulletYellow.gif",p.x,p.y,
                     this.gamePanel, direction));

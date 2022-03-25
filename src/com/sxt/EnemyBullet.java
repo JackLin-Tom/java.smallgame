@@ -8,7 +8,7 @@ public class EnemyBullet extends Bullet{
                        Direction direction) {
         super(img, x, y, gamePanel, direction);
     }
-    //子弹和Tank
+    //enemy子弹和playerTank
     public void hitPlayer(){
         ArrayList<Tank> players = this.gamePanel.playerList;
         for(Tank player: players){
@@ -16,6 +16,7 @@ public class EnemyBullet extends Bullet{
                 this.gamePanel.blastList.add(new BlastObj("",player.x-34,player.y-14,this.gamePanel));
                 this.gamePanel.playerList.remove(player);
                 this.gamePanel.removeList.add(this);
+                player.alive--;
                 break;
             }
         }

@@ -45,9 +45,14 @@ public class GamePanel extends JFrame {
     ArrayList<BlastObj>blastList = new ArrayList<BlastObj>();
 
     //PlayerOne
-    PlayerOne playerOne = new PlayerOne("Images/player1/P1tankU.gif",125,510,this,
-            "Images/player1/P1tankU.gif","Images/player1/P1tankL.gif",
-            "Images/player1/P1tankR.gif","images/player1/p1tankD.gif");
+    PlayerOne playerOne = new PlayerOne("Images/player1/p1tankU.gif",125,510,this,
+            "Images/player1/p1tankU.gif","Images/player1/p1tankL.gif",
+            "Images/player1/p1tankR.gif","images/player1/p1tankD.gif");
+    //PlayerTwo
+    PlayerTwo playerTwo= new PlayerTwo("Images/player2/p2tankU.gif",625,510,this,
+            "Images/player2/p2tankU.gif","Images/player2/p2tankL.gif",
+            "Images/player2/p2tankR.gif","images/player2/p2tankD.gif");
+
     //Bot
     Bot bot = new Bot("images/enemy/enemy1U.gif",500,110,
             this,"images/enemy/enemy1U.gif","images/enemy/enemy1L.gif",
@@ -138,12 +143,9 @@ public class GamePanel extends JFrame {
             gImage.drawImage(select, 160, y, null);
         }
         else if (state == 1 || state == 2) {
-            gImage.drawString("游戏开始", 220, 100);
-            if (state == 1) {
-                gImage.drawString("单人模式", 220, 200);
-            } else {
-                gImage.drawString("双人模式", 220, 200);
-            }
+            gImage.setFont(new Font("仿宋",Font.BOLD,30));
+            gImage.setColor(Color.red);
+            gImage.drawString("剩余敌人"+botList.size(),5,65);
             //添加游戏元素
             for(Tank player: playerList){
                 player.paintSelf(gImage);
@@ -153,7 +155,7 @@ public class GamePanel extends JFrame {
             }
             bulletList.removeAll(removeList);
 
-            bot.paintSelf(gImage);//绘制敌方坦克
+//            bot.paintSelf(gImage);//绘制敌方坦克/*试绘坦克*/
             for(Bot bot:botList){
                 bot.paintSelf(gImage);
             }
@@ -183,10 +185,6 @@ public class GamePanel extends JFrame {
         g.drawImage(offscreenImage,0,0,null);
     }
 
-
-
-
-
     //键盘监视器
     class KeyMonitor extends KeyAdapter{
         //按下键盘
@@ -196,18 +194,24 @@ public class GamePanel extends JFrame {
             System.out.println(e.getKeyChar());
             int key = e.getKeyCode();
             switch(key) {
-                case KeyEvent.VK_1:
+                case KeyEvent.VK_NUMPAD1:
                     a = 1;
                     y = 150;
                     break;
-                case KeyEvent.VK_2:
+                case KeyEvent.VK_NUMPAD2:
                     a = 2;
                     y = 250;
                     break;
                 case KeyEvent.VK_ENTER:
                     state = a;
                     playerList.add(playerOne);
-                    //player2
+                    //PlayerTwo
+                    if(state == 2){
+                        playerList.add(playerTwo);
+                        playerTwo.alive = 1;
+                    }
+
+                    playerOne.alive = 1;
                     break;
                 case KeyEvent.VK_P:
                     if(state != 3){
@@ -222,6 +226,7 @@ public class GamePanel extends JFrame {
                     }
                 default:
                     playerOne.keyPressed(e);
+                    playerTwo.keyPressed(e);
                     break;
             }
         }
@@ -229,6 +234,7 @@ public class GamePanel extends JFrame {
         @Override
         public void keyReleased(KeyEvent e){
             playerOne.keyReleased(e);
+            playerTwo.keyReleased(e);
         }
     }
 
