@@ -9,8 +9,8 @@ public abstract  class Tank extends GameObject{
     public int height =50;
     //坦克的初始方向（向上）
     Direction direction = Direction.UP;
-    //生命
-    public int alive = 0;
+    //生命——初始三条命
+    public int alive = 1;
     //速度
     private int speed = 5;
     //四个方向的图片
@@ -66,7 +66,7 @@ public abstract  class Tank extends GameObject{
         }
     }
     public void attack(){
-        if(attackCoolDown && (alive == 1)){
+        if(attackCoolDown && !(alive == 0)){
             Point P = this.getHeadPoint();
             Bullet bullet = new Bullet("images/bullet/bulletGreen.gif",P.x,P.y,
                     this.gamePanel, direction);
@@ -94,7 +94,6 @@ public abstract  class Tank extends GameObject{
             //线程终止
             this.stop();
         }
-
     }
     public Point getHeadPoint(){
         switch (direction){
